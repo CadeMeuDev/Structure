@@ -1,0 +1,89 @@
+﻿@model Structure.WebAppMvc.Models.Location
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Location</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Uuid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Uuid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Acronym)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Acronym)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Parent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Parent.Name)
+            <br /> @Html.DisplayFor(model => model.Parent.Parent.Name)
+            <br /> @Html.DisplayFor(model => model.Parent.Parent.Parent.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LocationType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LocationType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Children)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var level2 in Model.Children)
+            {
+                <ul>
+                    <li>
+                        @Html.DisplayFor(model => level2.Name)
+                        @foreach (var level3 in level2.Children)
+                        {
+                            <ul>
+                                <li>
+                                    @Html.DisplayFor(model => level3.Name)
+                                    @foreach (var level4 in level3.Children)
+                                    {
+                                        <ul>
+                                            <li>
+                                                @Html.DisplayFor(model => level4.Name)
+                                            </li>
+                                        </ul>
+
+                                    }
+                                </li>
+                            </ul>
+
+                        }
+
+                    </li>
+                </ul>
+            }
+
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
