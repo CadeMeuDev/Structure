@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Structure.WebAppMvc.Data;
 
@@ -12,9 +13,19 @@ services.AddDbContext<StructureContext>(options =>
     options.UseNpgsql(connectionsString,
     m => m.MigrationsHistoryTable("__EFMigrationsHistory", "structure")));
 
-services.AddControllersWithViews();
+services.AddControllersWithViews()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+services.AddControllers();
+services.AddRouting(options => options.LowercaseUrls = true);
+services.AddEndpointsApiExplorer();
+
+services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseExceptionHandler("/Home/Error");
 app.UseHsts();
