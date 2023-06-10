@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Structure.WebAppMvc.Cache;
 using Structure.WebAppMvc.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ var connectionsString = builder.Configuration.GetConnectionString("Postgresql")
 services.AddDbContext<StructureContext>(options =>
     options.UseNpgsql(connectionsString,
     m => m.MigrationsHistoryTable("__EFMigrationsHistory", "structure")));
+
+services.AddSingleton<RedisProvider>();
 
 services.AddControllersWithViews()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
